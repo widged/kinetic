@@ -1,0 +1,148 @@
+(function(window) {
+
+	var defaults = {
+		amplitudeFactor: 1.2,
+		scrollTrigger: 10,
+		isHorizontal: true,
+		isPhotoSwipe: true,
+		timeConstant: 125
+	};
+
+	var Class = function KineticPhoto(config) {
+
+		var instance = this;
+
+		var xform, view;
+		var nodes, index, images, count = 10;
+
+		function init() {
+			if(!config) { config = {}; }
+
+			// nodes  = config.nodes;
+
+			Object.keys(defaults).forEach(function(key) {
+				if(!config.hasOwnProperty(key)) { config[key] = defaults[key]; }
+			});
+		}
+
+		instance.view = function(_) {
+			view = _;
+			return instance;
+		};
+
+		instance.ready = function(kinetic, asyncReturn) {
+			kinetic.config(config);
+
+			var snap = window.innerWidth;
+			xform = kinetic.getBrowserTransforms(view);
+			kinetic.setupEvents(view);
+
+			var count = 10;
+			var index = 0;
+			var offset = 0;
+
+			nodes = renderNodes(snap);
+			images = []; attachImages(count, images);
+
+			index = instance.display(0, snap);
+			offset = instance.scroll(0, snap);
+
+			asyncReturn(offset, snap, index);
+
+		};
+
+		instance.display = function(i, snap) {
+			var index = instance.getIndex(i, index);
+			instance.updateDisplay(index);
+			return index;
+		};
+
+
+		function attachImages(count, images) {
+			var i, stash, el;
+
+			// Predownloads some images.
+			stash = document.getElementById('stash');
+			for (i = 0; i < count; ++i) {
+				el = document.createElement('img');
+				el.setAttribute('src', 'images/' + i + '.jpg');
+				stash.appendChild(el);
+				images.push(el);
+			}
+		}
+
+		function renderNodes(snap) {
+			left = document.getElementById('1');
+			center = document.getElementById('2');
+			right = document.getElementById('3');
+
+			left.setAttribute('width', snap + 'px');
+			center.setAttribute('width', snap + 'px');
+			right.setAttribute('width', snap + 'px');
+			return {left: left, center: center, right: right};
+		}
+
+
+		instance.scroll = function(x, snap) {
+			var slow, fast;
+
+			slow = -Math.round(x / 2);
+			fast = -Math.round(x);
+
+			nodes.left.style[xform] = 'translate3d(' + (fast - snap) + 'px, 0, 0)';
+			nodes.center.style[xform] = 'translate3d(' + slow + 'px, 0, 0)';
+			nodes.right.style[xform] = 'translate3d(' + (fast + snap) + 'px, 0, 0)';
+
+			return x;
+		};
+
+		function wrap(x) {
+			return (x >= count) ? (x - count) : (x < 0) ? x + count : x;
+		}
+
+		instance.getIndex = function(i, index) {
+
+			// var left = nodes.left, center = nodes.center, right = nodes.right;
+
+			var id = nodes.center.id;
+			if (i < index) {
+				id = nodes.left.id;
+				nodes.left = document.getElementById(nodes.center.id);
+			} else if (i > index) {
+				id = nodes.right.id;
+				nodes.right = document.getElementById(nodes.center.id);
+			}
+			nodes.center = document.getElementById(id);
+
+			index = wrap(i);
+
+			return index;
+		};
+
+		instance.updateDisplay = function(index) {
+			console.log(nodes, index)
+			nodes.left.setAttribute('src', images[wrap(index - 1)].getAttribute('src'));
+			nodes.center.setAttribute('src', images[index].getAttribute('src'));
+			nodes.right.setAttribute('src', images[wrap(index + 1)].getAttribute('src'));
+
+
+			nodes.left.setAttribute('class', 'leftcard');
+			nodes.center.setAttribute('class', 'centercard');
+			nodes.right.setAttribute('class', 'rightcard');
+
+		};
+
+
+
+		
+
+		
+		
+		init();
+
+		return instance;
+	};
+
+	window.KineticPhoto = Class;
+
+}(window));

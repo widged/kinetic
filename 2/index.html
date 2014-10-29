@@ -6,7 +6,8 @@
   <link rel="stylesheet" href="../css/pure-nr-min.css">
   <link rel="stylesheet" href="../css/style.css">
   <script src="../js/raf.js"></script>
-  <script src="scroll.js"></script>
+  <script src="../js/r_default.js"></script>
+  <script src="../js/kinetic.js"></script>
 </head>
 <body>
   <div id="indicator"></div>
@@ -271,5 +272,17 @@
        </table>
    </div>
   </div>
+<script>
+(function(window) {
+    var kinetic = new window.Kinetic();
+    var renderer = new window.KineticDefault({hRelative: 30})
+    renderer.view(document.getElementById('view'))
+            .indicator(document.getElementById('indicator'))
+            .overlay(document.getElementById('overlay'));
+
+    kinetic.renderer(renderer);
+
+}(window));
+</script>  
 </body>
 </html>

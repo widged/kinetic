@@ -5,8 +5,8 @@
   <title>CoverFlow</title>
   <link rel="stylesheet" href="../css/pure-nr-min.css">
   <link rel="stylesheet" href="../css/style.css">
-  <script src="../js/raf.js"></script>
-  <script src="coverflow.js"></script>
+  <script src="../js/r_coverFlow.js"></script>
+  <script src="../js/kinetic.js"></script>
 </head>
 <body>
   <div class="pure-g cover" id="content">
@@ -21,5 +21,19 @@
       <img id="8" src="images/renegade.jpg">
   </div>
   <div id="stash"></div>
+
+<script>
+(function(window) {
+    var kinetic = new window.Kinetic();
+
+    var renderer = new window.KineticCoverflow();
+    renderer.view(document.getElementById('content'));
+
+    kinetic.renderer(renderer);
+
+}(window));
+</script>  
+
+
 </body>
 </html>

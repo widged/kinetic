@@ -1,5 +1,13 @@
 # JavaScript Kinetic Scrolling
 
+Adapted from http://ariya.github.io/kinetic/. 
+
+## Changes
+
+Merged the code behind five separate demo into a reusable library. Separated the notion of capturing the user interaction from the one of updating the view as a function of that interaction. Rendering code moved to  3 renderers (default, photoSwipe, coverFlow)
+
+## Original notes
+
 \#1: **Basic drag-and-scroll** ([demo](http://ariya.github.io/kinetic/1/), [explanation](http://ariya.ofilabs.com/2013/08/javascript-kinetic-scrolling-part-1.html)).<br/>
 No momentum effect yet, just a plain scroll view.
 
