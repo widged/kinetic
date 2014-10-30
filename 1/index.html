@@ -5,14 +5,17 @@
   <title>Basic Scrolling</title>
   <link rel="stylesheet" href="../css/pure-nr-min.css">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/flickContent.css">
   <script src="../js/raf.js"></script>
   <script src="../js/r_default.js"></script>
-  <script src="../js/kinetic.js"></script>
+  <script src="../js/KineticSwipe.js"></script>
 </head>
 <body>
-  <div id="indicator"></div>
-  <div class="pure-g" id="content">
-    <div class="pure-u-1" id="view">
+<div class="pure-g" id="content">
+
+  <gg-flick-content>
+  <div class="indicator"></div>
+    <div class="view pure-u-1">
         <aside>#1: Basic touch-and-drag scrolling.<br/>No momentum effect.</aside>
 <p>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eget purus libero. Nulla ut pretium libero. Vestibulum adipiscing quam ac sapien scelerisque, a posuere sem dictum. Ut aliquet lectus ut nibh dapibus cursus. Donec quam libero, aliquam nec aliquam quis, feugiat quis metus. Phasellus ac orci mauris. Cras hendrerit suscipit nisi, eget varius mi condimentum vel. Donec id libero magna. Nam scelerisque nisi tellus, ut cursus ipsum imperdiet eget. Donec porttitor non lectus ut lacinia. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut egestas commodo facilisis. Etiam orci nibh, pellentesque sed ipsum consequat, faucibus tempus augue. Cras iaculis diam in auctor bibendum.
@@ -46,14 +49,14 @@ Vestibulum tincidunt vestibulum turpis, in scelerisque nibh. Cras nunc metus, cu
 </p>
 <p>(END OF TEXT)</p>
    </div>
-  </div>
+  </gg-flick-content>
+</div>
 <script>
 (function(window) {
 
     var kinetic = new window.Kinetic();
-    var renderer = new window.KineticDefault({hRelative: 30})
-    renderer.view(document.getElementById('view'))
-            .indicator(document.getElementById('indicator'));
+    var renderer = new window.KineticDefault()
+    renderer.rootNode(document.querySelector('gg-flick-content'));
 
     kinetic.renderer(renderer);
 

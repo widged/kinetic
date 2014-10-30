@@ -12,8 +12,8 @@
 
 		var instance = this;
 
-		var xform, view;
-		var nodes, index, images, count = 10;
+		var xform, view, snap;
+		var nodes, index = 0, images, count = 10;
 
 		function init() {
 			if(!config) { config = {}; }
@@ -33,28 +33,35 @@
 		instance.ready = function(kinetic, asyncReturn) {
 			kinetic.config(config);
 
-			var snap = window.innerWidth;
+			snap = window.innerWidth;
 			xform = kinetic.getBrowserTransforms(view);
 			kinetic.setupEvents(view);
 
-			var count = 10;
-			var index = 0;
 			var offset = 0;
 
 			nodes = renderNodes(snap);
 			images = []; attachImages(count, images);
 
-			index = instance.display(0, snap);
-			offset = instance.scroll(0, snap);
+
+			offset = instance.display(0, snap);
 
 			asyncReturn(offset, snap, index);
 
 		};
 
-		instance.display = function(i, snap) {
-			var index = instance.getIndex(i, index);
+		instance.display = function(i) {
+			console.log(snap)
+			i = index + i / snap;
+			index = instance.getIndex(i, index);
 			instance.updateDisplay(index);
-			return index;
+			offset = instance.scroll(0, snap);
+			return offset;
+		};
+
+		instance.snap = function(target) {
+			target = Math.round(target / snap) * snap;
+			target = (target < -snap) ? -snap : (target > snap) ? snap : target;
+			return target;
 		};
 
 
@@ -83,7 +90,7 @@
 		}
 
 
-		instance.scroll = function(x, snap) {
+		instance.scroll = function(x) {
 			var slow, fast;
 
 			slow = -Math.round(x / 2);
@@ -101,6 +108,7 @@
 		}
 
 		instance.getIndex = function(i, index) {
+			console.log(index)
 
 			// var left = nodes.left, center = nodes.center, right = nodes.right;
 

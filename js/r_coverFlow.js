@@ -12,7 +12,7 @@
 
 		var instance = this;
 
-		var xform, view;
+		var xform, view, snap;
 		var nodes, index, images, count = 10;
 		var angle, dist, shift;
 
@@ -61,6 +61,11 @@
 			asyncReturn(offset, snap, index);
 
 		};
+
+		instance.display = function(y) {
+			return instance.scroll(y);
+		};
+
 
 		instance.scroll = function(x) {
 
@@ -118,6 +123,11 @@
 
 			return x;
 		};
+
+		instance.snap = function(target) {
+			return Math.round(target / snap) * snap;
+		};
+
 
 		function wrap(x) {
 			return (x >= count) ? (x % count) : (x < 0) ? wrap(count + (x % count)) : x;

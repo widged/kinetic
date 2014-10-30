@@ -1,18 +1,18 @@
 (function(window) {
 
 	var defaults = {
-		tickerInterval   : 100,
-		dragTrigger      : 2,
+		tickerInterval	: 100,
+		dragTrigger		: 2,
 		amplitudeFactor  : 0.8, // <4> 1.2, <5> 0.9
 		velocityTrigger  : 10,
-		scrollTrigger    : 5, // <4> 10, <5> 4
-		isHorizontal     : false,
-		isPhotoSwipe     : false,
-		isKeyEnabled     : false,
-		timeConstant     : 325, // ms   // <2,3> 
-		trackD           : 1000,
-		trackV           : 0.8,
-		trackZ           : 0.2,
+		scrollTrigger	 : 5, // <4> 10, <5> 4
+		isHorizontal	  : false,
+		isPhotoSwipe	  : false,
+		isKeyEnabled	  : false,
+		timeConstant	  : 325, // ms	// <2,3> 
+		trackD			  : 1000,
+		trackV			  : 0.8,
+		trackZ			  : 0.2,
 	};
 
 	var Class = function Kinetic() {
@@ -21,7 +21,7 @@
 
 		var renderer, config;
 
-		var index, offset, snap,
+		var offset,
 			pressed, reference, amplitude, target, velocity,
 			frame, timestamp, ticker;
 
@@ -44,28 +44,19 @@
 			setupEvents(view, tap, drag, release, handleKey);
 		};
 
-		function whenRendererReady(_offset, _snap, _index) {
+		function whenRendererReady(_offset) {
 			// config = _config;
 			pressed = false;
-			index   = _index;
 			offset  = _offset;
-			snap    = _snap;
 		}
 
-		function display(i) {
-			if(renderer.hasOwnProperty("display")) { // photoSwipe
-				i = index + i / snap;
-				index = renderer.display(i, snap);
-				offset = renderer.scroll(0, snap);
-			} else {
-				offset = renderer.scroll(i);
-			}
+		function display(i, offset) {
+			offset = renderer.display(i);
 		}
 
-		function scroll(x) {
-			offset = renderer.scroll(x, snap);
+		function scroll(pos) {
+			offset = renderer.scroll(pos);
 		}
-
 
 		// 1, 2, 3
 		function getPos(e) {
@@ -133,22 +124,21 @@
 			target = offset;
 			// </3,4,5>
 
+			var hasSnap = renderer.hasOwnProperty('snap') ? true : false;
+
 			// <2,3,4>
 			clearInterval(ticker);
 			if (velocity > config.velocityTrigger || velocity < -config.velocityTrigger) {
 				amplitude = config.amplitudeFactor * velocity;
 				target = Math.round(offset + amplitude);
-				if(!snap) {
+				if(!hasSnap) {
 					timestamp = Date.now();
 					requestAnimationFrame(autoScroll);
 				}
 			}
 			// </2,3,4>
-			if(snap) {
-				target = Math.round(target / snap) * snap;
-				if(config.isPhotoSwipe) { // <4>
-					target = (target < -snap) ? -snap : (target > snap) ? snap : target;
-				} // </4>
+			if(hasSnap) {
+				target = renderer.snap(target);
 				amplitude = target - offset;
 				timestamp = Date.now();
 				requestAnimationFrame(autoScroll);
@@ -185,7 +175,7 @@
 					scroll(target - delta);
 					requestAnimationFrame(autoScroll);
 				} else {
-					display(target, offset, snap);
+					display(target, offset);
 				}
 			}
 		}
@@ -246,11 +236,7 @@
 
 	window.Kinetic = Class;
 
+
+
 }(window));
 
-
-/*
-
-
-
-*/

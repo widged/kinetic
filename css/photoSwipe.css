@@ -1,0 +1,39 @@
+#content {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+#view p {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.large-text {
+    font-size: 120%;
+}
+
+img.leftcard {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+img.centercard {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+img.rightcard {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
