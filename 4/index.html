@@ -10,11 +10,13 @@
 </head>
 <body>
   <div class="pure-g" id="content">
+    <gg-photo-swipe>
       <img id="1" class="leftcard">
       <img id="2" class="centercard">
       <img id="3" class="rightcard">
+      <div id="stash"></div>
+    </gg-photo-swipe> 
   </div>
-  <div id="stash"></div>
 
 <script>
 (function(window) {
@@ -26,7 +28,7 @@
       center: document.getElementById('2'),
       right: document.getElementById('3')
     });
-    renderer.view(document.getElementById('content'));
+    renderer.embedIn(document.getElementById('content'));
 
     kinetic.renderer(renderer);
 

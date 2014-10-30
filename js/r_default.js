@@ -15,12 +15,10 @@
 			return instance;
 		};
 
-		instance.rootNode = function(node) {
+		instance.embedIn = function(node) {
 			view      = node.querySelector('.view');
 			indicator = node.querySelector('.indicator');
-			console.log(view, indicator)
 		};
-
 
 		instance.ready = function(kinetic, asyncReturn) {
 			kinetic.config(config);

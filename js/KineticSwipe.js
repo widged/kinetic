@@ -50,12 +50,12 @@
 			offset  = _offset;
 		}
 
-		function display(i, offset) {
+		function display(i, _offset) {
 			offset = renderer.display(i);
 		}
 
-		function scroll(pos) {
-			offset = renderer.scroll(pos);
+		function scroll(x) {
+			offset = renderer.scroll(x);
 		}
 
 		// 1, 2, 3

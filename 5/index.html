@@ -9,7 +9,8 @@
   <script src="../js/KineticSwipe.js"></script>
 </head>
 <body>
-  <div class="pure-g cover" id="content">
+  <div class="pure-g" id="content">
+    <gg-coverflow>
       <img id="0" src="images/winter.jpg">
       <img id="1" src="images/14.jpg">
       <img id="2" src="images/cloudatlas.jpg">
@@ -19,15 +20,16 @@
       <img id="6" src="images/inferno.jpg">
       <img id="7" src="images/koban.jpg">
       <img id="8" src="images/renegade.jpg">
+      <div id="stash"></div>
+     </gg-coverflow>
   </div>
-  <div id="stash"></div>
 
 <script>
 (function(window) {
     var kinetic = new window.Kinetic();
 
     var renderer = new window.KineticCoverflow();
-    renderer.view(document.getElementById('content'));
+    renderer.embedIn(document.querySelector('gg-coverflow'));
 
     kinetic.renderer(renderer);
 

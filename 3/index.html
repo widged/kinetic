@@ -180,7 +180,7 @@
 (function(window) {
     var kinetic = new window.Kinetic();
     var renderer = new window.KineticList()
-    renderer.rootNode(document.querySelector('gg-flick-list'))
+    renderer.embedIn(document.querySelector('gg-flick-list'))
     kinetic.renderer(renderer);
     
 }(window));

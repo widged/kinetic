@@ -12,8 +12,8 @@
 
 		var instance = this;
 
-		var xform, view, snap;
-		var nodes, index = 0, images, count = 10;
+		var xform, rootNode, snap;
+		var nodes, images, index = 0, count = 10;
 
 		function init() {
 			if(!config) { config = {}; }
@@ -25,8 +25,8 @@
 			});
 		}
 
-		instance.view = function(_) {
-			view = _;
+		instance.embedIn = function(_) {
+			rootNode = _;
 			return instance;
 		};
 
@@ -34,8 +34,8 @@
 			kinetic.config(config);
 
 			snap = window.innerWidth;
-			xform = kinetic.getBrowserTransforms(view);
-			kinetic.setupEvents(view);
+			xform = kinetic.getBrowserTransforms(rootNode);
+			kinetic.setupEvents(rootNode);
 
 			var offset = 0;
 
@@ -50,14 +50,25 @@
 		};
 
 		instance.display = function(i) {
-			console.log(snap)
 			i = index + i / snap;
-			index = instance.getIndex(i, index);
-			instance.updateDisplay(index);
+			index = getIndex(i, index);
+			updateDisplay(index);
 			offset = instance.scroll(0, snap);
 			return offset;
 		};
 
+		instance.scroll = function(x) {
+			var slow, fast;
+
+			slow = -Math.round(x / 2);
+			fast = -Math.round(x);
+
+			nodes.left.style[xform] = 'translate3d(' + (fast - snap) + 'px, 0, 0)';
+			nodes.center.style[xform] = 'translate3d(' + slow + 'px, 0, 0)';
+			nodes.right.style[xform] = 'translate3d(' + (fast + snap) + 'px, 0, 0)';
+
+			return x;
+		};
 		instance.snap = function(target) {
 			target = Math.round(target / snap) * snap;
 			target = (target < -snap) ? -snap : (target > snap) ? snap : target;
@@ -90,26 +101,13 @@
 		}
 
 
-		instance.scroll = function(x) {
-			var slow, fast;
 
-			slow = -Math.round(x / 2);
-			fast = -Math.round(x);
-
-			nodes.left.style[xform] = 'translate3d(' + (fast - snap) + 'px, 0, 0)';
-			nodes.center.style[xform] = 'translate3d(' + slow + 'px, 0, 0)';
-			nodes.right.style[xform] = 'translate3d(' + (fast + snap) + 'px, 0, 0)';
-
-			return x;
-		};
 
 		function wrap(x) {
 			return (x >= count) ? (x - count) : (x < 0) ? x + count : x;
 		}
 
-		instance.getIndex = function(i, index) {
-			console.log(index)
-
+		function getIndex(i, index) {
 			// var left = nodes.left, center = nodes.center, right = nodes.right;
 
 			var id = nodes.center.id;
@@ -127,8 +125,7 @@
 			return index;
 		};
 
-		instance.updateDisplay = function(index) {
-			console.log(nodes, index)
+		function updateDisplay(index) {
 			nodes.left.setAttribute('src', images[wrap(index - 1)].getAttribute('src'));
 			nodes.center.setAttribute('src', images[index].getAttribute('src'));
 			nodes.right.setAttribute('src', images[wrap(index + 1)].getAttribute('src'));
@@ -137,14 +134,8 @@
 			nodes.left.setAttribute('class', 'leftcard');
 			nodes.center.setAttribute('class', 'centercard');
 			nodes.right.setAttribute('class', 'rightcard');
-
 		};
 
-
-
-		
-
-		
 		
 		init();
 

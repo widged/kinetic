@@ -56,7 +56,7 @@ Vestibulum tincidunt vestibulum turpis, in scelerisque nibh. Cras nunc metus, cu
 
     var kinetic = new window.Kinetic();
     var renderer = new window.KineticDefault()
-    renderer.rootNode(document.querySelector('gg-flick-content'));
+    renderer.embedIn(document.querySelector('gg-flick-content'));
 
     kinetic.renderer(renderer);
 

@@ -12,7 +12,7 @@
 
 		var instance = this;
 
-		var xform, view, snap;
+		var xform, rootNode, snap;
 		var nodes, index, images, count = 10;
 		var angle, dist, shift;
 
@@ -26,16 +26,16 @@
 			});
 		}
 
-		instance.view = function(_) {
-			view = _;
+		instance.embedIn = function(_) {
+			rootNode = _;
 			return instance;
 		};
 
 		instance.ready = function(kinetic, asyncReturn) {
 			kinetic.config(config);
 
-			xform = kinetic.getBrowserTransforms(view);
-			kinetic.setupEvents(view);
+			xform = kinetic.getBrowserTransforms(rootNode);
+			kinetic.setupEvents(rootNode);
 
 
 			Object.keys(defaults).forEach(function(key) {
@@ -82,6 +82,7 @@
 
 			// center
 			el = images[wrap(center)];
+
 			el.style[xform] = alignment +
 				' translateX(' + (-delta / 2) + 'px)' +
 				' translateX(' + (dir * shift * tween) + 'px)' +

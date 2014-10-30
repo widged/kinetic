@@ -1,25 +1,18 @@
-#content {
+gg-coverflow {
+    display: block;
     overflow: hidden;
     width: 100%;
     height: 100%;
     position: absolute;
     top: 0px;
     left: 0px;
-}
-
-
-div#stash {
-    visibility: hidden;
-}
-
-div.cover {
     perspective: 500px;
     -webkit-perspective: 500px;
     transform-style: preserve-3d;
     -webkit-transform-style: preserve-3d;
 }
 
-div.cover img {
+gg-coverflow img {
     width: 200px;
     position: absolute;
     top: 0;
@@ -27,5 +20,9 @@ div.cover img {
     opacity: 0;
     border: none;
     -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom,from(transparent), color-stop(70%, transparent), to(rgba(255,255,255,0.4)));
+}
+
+gg-coverflow.stash {
+    visibility: hidden;
 }
 

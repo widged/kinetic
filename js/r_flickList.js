@@ -57,7 +57,7 @@
 			return instance;
 		};
 
-		instance.rootNode = function(node) {
+		instance.embedIn = function(node) {
 			dom       = DomComponent(node);
 			view      = dom.first('.view');
 			indicator = dom.first('.indicator');
@@ -105,14 +105,6 @@
 			asyncReturn(offset, lastH, index);
 		};
 
-		function computedHeight(node) {
-			return parseInt(getComputedStyle(node).height, 10);
-		}
-
-		instance.snap = function(target) {
-			return Math.round(target / snap) * snap;
-		};
-
 		instance.display = function(y) {
 			return instance.scroll(y);
 		};
@@ -127,6 +119,16 @@
 			// </1,2>
 			return y;
 		};
+
+		instance.snap = function(target) {
+			return Math.round(target / snap) * snap;
+		};
+
+
+		function computedHeight(node) {
+			return parseInt(getComputedStyle(node).height, 10);
+		}
+
 
 
 		return instance;
