@@ -1,5 +1,9 @@
 define(function(require, exports, module) {
 
+	var BrowserTransforms = require('BrowserTransforms');
+	var Kinetic           = require('Kinetic');
+	var Swipe             = require('Swipe');
+
 	var settings = {
 		kinetic: {
 			amplitudeFactor: 1.2
@@ -29,7 +33,7 @@ define(function(require, exports, module) {
 			swipe.config(settings.swipe);
 			swipe.kinetic(new Kinetic(settings.kinetic));
 
-			xform = swipe.getBrowserTransforms(rootNode);
+			xform = BrowserTransforms.getPrefix();
 			swipe.setupEvents(rootNode);
 
 			window.onresize = instance.scroll;

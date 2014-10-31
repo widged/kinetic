@@ -1,14 +1,4 @@
-
-gg-flick-list {
-    display: block;
-    position: relative;
-    overflow: hidden;
-    height: 100%;
-    height: 600px;
-    background-color: rgba(100,100,100,0.1)
-}
-
-gg-flick-list > .overlay {
+div.overlay {
     position: absolute;
     z-index: 99;
     top: 100px;
@@ -23,6 +13,15 @@ gg-flick-list > .overlay {
     -moz-user-select: moz-none;
     -ms-user-select: none;
     user-select: none;
+}
+
+gg-flick-list {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    height: 600px;
+    background-color: rgba(100,100,100,0.1)
 }
 
 gg-flick-list > .indicator {
@@ -68,8 +67,8 @@ gg-flick-list > .view ul > li.leading {
     color: #333;
 }
 
-gg-flick-list > .view ul > li.leading:nth-child(2) { 
-    border-bottom: 1px solid #888;
+gg-flick-list > .view ul > li.overlay { 
+    border-top: 1px solid #888;
 }
 
 

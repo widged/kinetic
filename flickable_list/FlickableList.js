@@ -1,27 +1,23 @@
 define(function(require, exports, module) {
-	var Class = function ScrollOverlay(node, overlayNode, listNode) {
+	var Class = function ScrollOverlay(overlayNode) {
 
 		var instance = this;
-
-		function init() {
-			if(!overlayNode) { return; }
-			var vTop = listNode.first('li').getBoundingClientRect().top;
-			var oTop = overlayNode.getBoundingClientRect().top;
-			node.style.top = Math.round(oTop - vTop);
-		}
 
 		instance.adjust = function(max) {
 			return max - instance.bottom();
 		};
 
+		instance.top = function() {
+			return overlayNode.getBoundingClientRect().top;
+		};
+
 		instance.bottom = function() {
 			if(!overlayNode) { return 0; }
-			var vTop = listNode.first('li').getBoundingClientRect().top;
+			var vTop = overlayNode.parentNode.getBoundingClientRect().top;
 			var oBot = overlayNode.getBoundingClientRect().bottom;
 			return oBot - vTop;
 		};
 
-		init();
 
 		return instance;
 	};
@@ -29,6 +25,10 @@ define(function(require, exports, module) {
 });
 
 define(function(require, exports, module) {
+
+	var BrowserTransforms = require('BrowserTransforms');
+	var Kinetic           = require('Kinetic');
+	var Swipe             = require('Swipe');
 
 	var Class = function FlickableList() {
 
@@ -47,17 +47,22 @@ define(function(require, exports, module) {
 			swipe.config({});
 			swipe.kinetic(new Kinetic({}));
 
-			xform = swipe.getBrowserTransforms(view);
+			xform = BrowserTransforms.getPrefix();
 			swipe.setupEvents(view);
 
 			min   = 0;
 			max   = computedHeight(dom.first(".view"));
 			snap  = dom.first('li:last-child').getBoundingClientRect().height;
 
-			var overlay = new ScrollOverlay(dom.first('.overlay'), dom.first('li.overlay'), dom);
-			max = overlay.adjust(max);
+			if((overlayContainer = document.querySelector('div.overlay'))) {
+				var overlay = new ScrollOverlay(dom.first('li.overlay'));
+				overlayContainer.style.top = Math.round(overlay.top());
+				max = overlay.adjust(max);
+			}
 
-			indicator = new ScrollIndicator(dom.first('.indicator'), dom, computedHeight(dom.root), xform);
+			if((indicatorContainer = dom.first('.indicator'))) {
+				indicator = new ScrollIndicator(indicatorContainer);
+			}
 
 			snap = snap;
 			asyncReturn(0);

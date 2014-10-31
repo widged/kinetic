@@ -1,5 +1,9 @@
 define(function(require, exports, module) {
 
+	var BrowserTransforms = require('BrowserTransforms');
+	var Kinetic           = require('Kinetic');
+	var Swipe             = require('Swipe');
+
 	var settings = {
 		kinetic: {
 			amplitudeFactor: 1.2,
@@ -28,7 +32,7 @@ define(function(require, exports, module) {
 			swipe.kinetic(new Kinetic(settings.kinetic));
 
 			snap = window.innerWidth;
-			xform = swipe.getBrowserTransforms(rootNode);
+			xform = BrowserTransforms.getPrefix();
 			swipe.setupEvents(rootNode);
 
 			var offset = 0;

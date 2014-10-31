@@ -19,8 +19,6 @@
 			pressed, reference, target,
 			frame, timestamp, ticker;
 
-		instance.getBrowserTransforms = getBrowserTransforms;
-
 		var config = parseConfig(settings);
 
 		instance.renderer = function(_) {
@@ -209,20 +207,6 @@
 		view.addEventListener('mouseup', onRelease);
 
 		if(onHandleKey) { document.addEventListener('keydown', onHandleKey); }
-	}
-
-	function getBrowserTransforms(view) {
-		var browserPrefixes  = ['webkit', 'Moz', 'O', 'ms'];
-		var out = 'transform';
-		browserPrefixes.every(function (prefix) {
-			var e = prefix + 'Transform';
-			if (typeof view.style[e] !== 'undefined') {
-				out = e;
-				return false;
-			}
-			return true;
-		});
-		return out;
 	}
 
 	window.Swipe = Class;

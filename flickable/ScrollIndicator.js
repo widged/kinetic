@@ -1,9 +1,13 @@
 define(function(require, exports, module) {
 
-	var Class = function ScrollIndicator(node, dom, indicatorMax, xform) {
+	var BrowserTransforms = require('BrowserTransforms');
+
+	var Class = function ScrollIndicator(node) {
 
 		var instance = this;
-		var indicatorH = 20;
+		var xform        = BrowserTransforms.getPrefix();
+		var indicatorH   = parseInt(getComputedStyle(node).height, 10);
+		var indicatorMax = parseInt(getComputedStyle(node.parentNode).height, 10);
 
 		node.style.top = 0 + 'px';
 

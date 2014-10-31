@@ -1,5 +1,9 @@
 define(function(require, exports, module) {
 
+	var BrowserTransforms = require('BrowserTransforms');
+	var Kinetic           = require('Kinetic');
+	var Swipe             = require('Swipe');
+
 	var Class = function FlickableContent(hRelative, isKinetic) {
 
 		var instance = this;
@@ -17,7 +21,7 @@ define(function(require, exports, module) {
 			swipe.config({});
 			if(isKinetic) { swipe.kinetic(new Kinetic({})); }
 
-			xform = swipe.getBrowserTransforms(view);
+			xform = BrowserTransforms.getPrefix();
 			swipe.setupEvents(view);
 
 			var offset = 0;
