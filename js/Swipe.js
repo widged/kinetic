@@ -3,13 +3,8 @@
 	var defaults = {
 		tickerInterval	: 100,
 		dragTrigger		: 2,
-		amplitudeFactor : 0.8, // <4> 1.2, <5> 0.9
-		velocityTrigger : 10,
 		scrollTrigger	: 5, // <4> 10, <5> 4
 		timeConstant	: 325, // ms	// <2,3> 
-		trackD			: 1000,
-		trackV			: 0.8,
-		trackZ			: 0.2,
 		isHorizontal	: false,
 		isKeyEnabled	: false,
 		isKinetic       : true
@@ -27,11 +22,16 @@
 
 		instance.getBrowserTransforms = getBrowserTransforms;
 
-		config = parseConfig(settings);
+		var config = parseConfig(settings);
 
 		instance.renderer = function(_) {
 			renderer = _;
 			renderer.ready(instance, whenRendererReady);
+			return instance;
+		};
+
+		instance.kinetic = function(_) {
+			kinetic = _;
 			return instance;
 		};
 
@@ -54,7 +54,6 @@
 		function whenRendererReady(_offset) {
 			// config = _config;
 			pressed = false;
-			if(config.isKinetic) { kinetic = new Kinetic(config); }
 			offset  = _offset;
 		}
 
@@ -90,6 +89,7 @@
 
 		function kineticTap() {
 			if(!kinetic) { return; }
+			console.log(kinetic)
 			kinetic.reset();
 			frame = offset;
 			timestamp = Date.now();
@@ -227,41 +227,7 @@
 		return out;
 	}
 
-	function Kinetic(config) {
-		var instance = this;
-		var amplitude, velocity;
-
-		instance.reset = function() {
-			velocity = amplitude = 0;
-		};
-
-		instance.release = function() {
-			var out = 0;
-			if (velocity > config.velocityTrigger || velocity < -config.velocityTrigger) {
-				amplitude = config.amplitudeFactor * velocity;
-				out = amplitude;
-			}
-			return out;
-		};
-
-		instance.track = function(ratio) {
-			var v = config.trackD * ratio;
-			velocity = config.trackV * v + config.trackZ * velocity;
-		};
-
-		instance.amplitude = function(_) {
-			if(!arguments.length) { return amplitude; }
-			amplitude = _;
-			return instance;
-		};
-
-		return instance;
-	}
-
-	
 	window.Swipe = Class;
-
-
 
 }(window));
 

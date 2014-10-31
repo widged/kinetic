@@ -7,8 +7,9 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/flickContent.css">
   <script src="../js/raf.js"></script>
+  <script src="../js/Kinetic.js"></script>
+  <script src="../js/Swipe.js"></script>
   <script src="../js/r_default.js"></script>
-  <script src="../js/KineticSwipe.js"></script>
 </head>
 <body>
 <div class="pure-g" id="content">
@@ -54,11 +55,11 @@ Vestibulum tincidunt vestibulum turpis, in scelerisque nibh. Cras nunc metus, cu
 <script>
 (function(window) {
 
-    var kinetic = new window.Swipe({isKinetic: false});
-    var renderer = new window.KineticDefault()
+    var swipe = new window.Swipe();
+    var renderer = new window.KineticDefault(30, false);
     renderer.embedIn(document.querySelector('gg-flick-content'));
 
-    kinetic.renderer(renderer);
+    swipe.renderer(renderer);
 
 }(window));
 </script>  

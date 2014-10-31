@@ -1,41 +1,35 @@
 (function(window) {
 
-	var defaults = {
-		amplitudeFactor: 1.2,
-		scrollTrigger: 10,
-		isHorizontal: true,
-		isPhotoSwipe: true,
-		timeConstant: 125
+	var settings = {
+		kinetic: {
+			amplitudeFactor: 1.2,
+		},
+		swipe : {
+			scrollTrigger: 10,
+			isHorizontal: true,
+			timeConstant: 125
+		}
 	};
 
-	var Class = function KineticPhoto(config) {
+	var Class = function KineticPhoto() {
 
 		var instance = this;
 
 		var xform, rootNode, snap;
 		var nodes, images, index = 0, count = 10;
 
-		function init() {
-			if(!config) { config = {}; }
-
-			// nodes  = config.nodes;
-
-			Object.keys(defaults).forEach(function(key) {
-				if(!config.hasOwnProperty(key)) { config[key] = defaults[key]; }
-			});
-		}
-
 		instance.embedIn = function(_) {
 			rootNode = _;
 			return instance;
 		};
 
-		instance.ready = function(kinetic, asyncReturn) {
-			kinetic.config(config);
+		instance.ready = function(swipe, asyncReturn) {
+			swipe.config(settings.swipe);
+			swipe.kinetic(new Kinetic(settings.kinetic));
 
 			snap = window.innerWidth;
-			xform = kinetic.getBrowserTransforms(rootNode);
-			kinetic.setupEvents(rootNode);
+			xform = swipe.getBrowserTransforms(rootNode);
+			swipe.setupEvents(rootNode);
 
 			var offset = 0;
 
@@ -137,8 +131,6 @@
 		};
 
 		
-		init();
-
 		return instance;
 	};
 

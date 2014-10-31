@@ -1,14 +1,18 @@
 (function(window) {
 
-	var defaults = {
-		amplitudeFactor: 1.2,
-		scrollTrigger: 10,
-		isHorizontal: true,
-		isKeyEnabled: true,
-		timeConstant: 250
+	var settings = {
+		kinetic: {
+			amplitudeFactor: 1.2
+		},
+		swipe: {
+			scrollTrigger: 10,
+			isHorizontal: true,
+			isKeyEnabled: true,
+			timeConstant: 250
+		}
 	};
 
-	var Class = function KineticCoverflow(config) {
+	var Class = function KineticCoverflow() {
 
 		var instance = this;
 
@@ -16,31 +20,17 @@
 		var nodes, index, images, count = 10;
 		var angle, dist, shift;
 
-		function init() {
-			if(!config) { config = {}; }
-
-			// nodes  = config.nodes;
-
-			Object.keys(defaults).forEach(function(key) {
-				if(!config.hasOwnProperty(key)) { config[key] = defaults[key]; }
-			});
-		}
-
 		instance.embedIn = function(_) {
 			rootNode = _;
 			return instance;
 		};
 
-		instance.ready = function(kinetic, asyncReturn) {
-			kinetic.config(config);
+		instance.ready = function(swipe, asyncReturn) {
+			swipe.config(settings.swipe);
+			swipe.kinetic(new Kinetic(settings.kinetic));
 
-			xform = kinetic.getBrowserTransforms(rootNode);
-			kinetic.setupEvents(rootNode);
-
-
-			Object.keys(defaults).forEach(function(key) {
-				if(!config.hasOwnProperty(key)) { config[key] = defaults[key]; }
-			});
+			xform = swipe.getBrowserTransforms(rootNode);
+			swipe.setupEvents(rootNode);
 
 			window.onresize = instance.scroll;
 
@@ -135,8 +125,6 @@
 		}
 
 		
-		init();
-
 		return instance;
 	};
 

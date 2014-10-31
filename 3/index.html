@@ -5,8 +5,9 @@
   <title>Kinetic Scrolling</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/flickList.css">
+  <script src="../js/Kinetic.js"></script>
+  <script src="../js/Swipe.js"></script>
   <script src="../js/r_flickList.js"></script>
-  <script src="../js/KineticSwipe.js"></script>
 </head>
 <body>
   <div id="content">
@@ -176,10 +177,10 @@
   </div>
 <script>
 (function(window) {
-    var kinetic = new window.Swipe();
+    var swipe = new window.Swipe();
     var renderer = new window.KineticList()
     renderer.embedIn(document.querySelector('gg-flick-list'))
-    kinetic.renderer(renderer);
+    swipe.renderer(renderer);
     
 }(window));
 </script>  

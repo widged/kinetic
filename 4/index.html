@@ -5,8 +5,9 @@
   <title>Kinetic Scrolling</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/photoSwipe.css">
+  <script src="../js/Kinetic.js"></script>
+  <script src="../js/Swipe.js"></script>
   <script src="../js/r_photoSwipe.js"></script>
-  <script src="../js/KineticSwipe.js"></script>
 </head>
 <body>
   <div class="pure-g" id="content">
@@ -21,16 +22,12 @@
 <script>
 (function(window) {
 
-    var kinetic = new window.Swipe();
+    var swipe = new window.Swipe();
 
-    var renderer = new window.KineticPhoto({
-      left: document.getElementById('1'),
-      center: document.getElementById('2'),
-      right: document.getElementById('3')
-    });
+    var renderer = new window.KineticPhoto();
     renderer.embedIn(document.getElementById('content'));
 
-    kinetic.renderer(renderer);
+    swipe.renderer(renderer);
 
 }(window));
 </script>  

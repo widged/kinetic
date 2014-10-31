@@ -41,22 +41,14 @@
 
 (function(window) {
 
-	var Class = function KineticList(config) {
+	var Class = function KineticList() {
 
 		var instance = this, dom;
-
-		if(!config) { config = {}; }
 
 		var view, indicator, overlay,
 			relative, max, min, snap;
 		var xform;
-		var COUNT = 140;
-
-		instance.config = function(_) {
-			if(arguments.length === 0) { return config; }
-			return instance;
-		};
-
+		
 		instance.embedIn = function(node) {
 			dom       = DomComponent(node);
 			view      = dom.first('.view');
@@ -66,12 +58,12 @@
 			return instance;
 		};
 
+		instance.ready = function(swipe, asyncReturn) {
+			swipe.config({});
+			swipe.kinetic(new Kinetic({}));
 
-		instance.ready = function(kinetic, asyncReturn) {
-			kinetic.config(config);
-
-			xform = kinetic.getBrowserTransforms(view);
-			kinetic.setupEvents(view);
+			xform = swipe.getBrowserTransforms(view);
+			swipe.setupEvents(view);
 
 			min = 0; // </1,2> whenIndicator
 			var offset = 0;
