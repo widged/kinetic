@@ -89,7 +89,6 @@
 
 		function kineticTap() {
 			if(!kinetic) { return; }
-			console.log(kinetic)
 			kinetic.reset();
 			frame = offset;
 			timestamp = Date.now();

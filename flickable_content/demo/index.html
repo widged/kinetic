@@ -3,13 +3,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width initial-scale=1 user-scalable=no maximum-scale=1">
   <title>Basic Scrolling</title>
-  <link rel="stylesheet" href="../css/pure-nr-min.css">
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/flickContent.css">
-  <script src="../js/raf.js"></script>
-  <script src="../js/Kinetic.js"></script>
-  <script src="../js/Swipe.js"></script>
-  <script src="../js/r_default.js"></script>
+  <link rel="stylesheet" href="../../deploy/css/pure-nr-min.css">
+  <link rel="stylesheet" href="../../deploy/css/style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="../../deploy/js/raf.js"></script>
+  <script src="../../common_module/WindowDefine.js"></script>
+  <script src="../../flickable/Kinetic.js"></script>
+  <script src="../../flickable/Swipe.js"></script>
+  <script src="../FlickableContent.js"></script>
 </head>
 <body>
 <div class="pure-g" id="content">
@@ -56,7 +57,7 @@ Vestibulum tincidunt vestibulum turpis, in scelerisque nibh. Cras nunc metus, cu
 (function(window) {
 
     var swipe = new window.Swipe();
-    var renderer = new window.KineticDefault(30, false);
+    var renderer = new window.FlickableContent(30, false);
     renderer.embedIn(document.querySelector('gg-flick-content'));
 
     swipe.renderer(renderer);

@@ -3,11 +3,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width initial-scale=1 user-scalable=no maximum-scale=1">
   <title>CoverFlow</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/coverflow.css">
-  <script src="../js/Kinetic.js"></script>
-  <script src="../js/Swipe.js"></script>
-  <script src="../js/r_coverFlow.js"></script>
+  <link rel="stylesheet" href="../../deploy/css/pure-nr-min.css">
+  <link rel="stylesheet" href="../../deploy/css/style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="../../deploy/js/raf.js"></script>
+  <script src="../../common_module/WindowDefine.js"></script>
+  <script src="../../flickable/Kinetic.js"></script>
+  <script src="../../flickable/Swipe.js"></script>
+  <script src="../FlickableCoverflow.js"></script>
 </head>
 <body>
   <div class="pure-g" id="content">
@@ -28,7 +31,7 @@
 <script>
 (function(window) {
     var swipe = new window.Swipe();
-    var renderer = new window.KineticCoverflow();
+    var renderer = new window.FlickableCoverflow();
     renderer.embedIn(document.querySelector('gg-coverflow'));
     swipe.renderer(renderer);
 

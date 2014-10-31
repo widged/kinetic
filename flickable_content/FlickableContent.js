@@ -1,6 +1,6 @@
-(function(window) {
+define(function(require, exports, module) {
 
-	var Class = function KineticDefault(hRelative, isKinetic) {
+	var Class = function FlickableContent(hRelative, isKinetic) {
 
 		var instance = this;
 
@@ -50,6 +50,6 @@
 		return instance;
 	};
 
-	window.KineticDefault = Class;
+	return Class;
 
-}(window));
+});

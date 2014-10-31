@@ -1,4 +1,4 @@
-(function(window) {
+define(function(require, exports, module) {
 
 	var settings = {
 		kinetic: {
@@ -12,7 +12,7 @@
 		}
 	};
 
-	var Class = function KineticCoverflow() {
+	var Class = function FlickableCoverflow() {
 
 		var instance = this;
 
@@ -128,6 +128,6 @@
 		return instance;
 	};
 
-	window.KineticCoverflow = Class;
+	return Class;
 
-}(window));
+});

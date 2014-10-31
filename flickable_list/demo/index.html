@@ -3,13 +3,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width initial-scale=1 user-scalable=no maximum-scale=1">
   <title>Kinetic Scrolling</title>
-  <link rel="stylesheet" href="../css/pure-nr-min.css">
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/flickList.css">
-  <script src="../js/raf.js"></script>
-  <script src="../js/Kinetic.js"></script>
-  <script src="../js/Swipe.js"></script>
-  <script src="../js/r_flickList.js"></script>
+  <link rel="stylesheet" href="../../deploy/css/pure-nr-min.css">
+  <link rel="stylesheet" href="../../deploy/css/style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="../../deploy/js/raf.js"></script>
+  <script src="../../common_module/WindowDefine.js"></script>
+  <script src="../../dom_component/DomComponent.js"></script>
+  <script src="../../flickable/Kinetic.js"></script>
+  <script src="../../flickable/Swipe.js"></script>
+  <script src="../FlickableList.js"></script>
 </head>
 <body>
 
@@ -283,7 +285,7 @@
 <script>
 (function(window) {
     var kinetic = new window.Swipe();
-    var renderer = new window.KineticList()
+    var renderer = new window.FlickableList()
     renderer.embedIn(document.querySelector('gg-flick-list'))
     kinetic.renderer(renderer);
 

@@ -1,4 +1,4 @@
-(function(window) {
+define(function(require, exports, module) {
 
 	var settings = {
 		kinetic: {
@@ -11,7 +11,7 @@
 		}
 	};
 
-	var Class = function KineticPhoto() {
+	var Class = function FlickablePhoto() {
 
 		var instance = this;
 
@@ -117,7 +117,7 @@
 			index = wrap(i);
 
 			return index;
-		};
+		}
 
 		function updateDisplay(index) {
 			nodes.left.setAttribute('src', images[wrap(index - 1)].getAttribute('src'));
@@ -128,12 +128,12 @@
 			nodes.left.setAttribute('class', 'leftcard');
 			nodes.center.setAttribute('class', 'centercard');
 			nodes.right.setAttribute('class', 'rightcard');
-		};
+		}
 
 		
 		return instance;
 	};
 
-	window.KineticPhoto = Class;
+	return Class;
 
-}(window));
+});
