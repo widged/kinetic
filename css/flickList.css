@@ -1,6 +1,9 @@
+
 gg-flick-list {
     display: block;
+    position: relative;
     overflow: hidden;
+    height: 100%;
     height: 600px;
 }
 
@@ -22,7 +25,7 @@ gg-flick-list > .overlay {
 }
 
 
-gg-flick-list > .wrapper > .indicator {
+gg-flick-list > .indicator {
     position: absolute;
     z-index: 99;
     top: 0px;
@@ -36,12 +39,7 @@ gg-flick-list > .wrapper > .indicator {
     margin: 3px 0 3px 0;
 }
 
-gg-flick-list > .wrapper {
-    overflow: hidden;
-    height: 100%;
-}
-
-gg-flick-list .view { 
+gg-flick-list > .view { 
     position: relative;
     z-index: 10;
     padding: 0px;
@@ -49,20 +47,20 @@ gg-flick-list .view {
     margin: 0;
 }
 
-gg-flick-list .view ul {
+gg-flick-list > .view ul {
     padding: 0; margin: 0;
     list-style:none;
     list-style-image:none; 
 }
 
-gg-flick-list .view ul > li { 
+gg-flick-list > .view ul > li { 
     height: 32px; 
     border-bottom: 1px solid #888;
     line-height: 200%;
     color: #333;
 }
 
-gg-flick-list .view ul > li.leading { 
+gg-flick-list > .view ul > li.leading { 
     height: 32px; 
     border-bottom: none;
     border-top: none;
@@ -70,6 +68,8 @@ gg-flick-list .view ul > li.leading {
     color: #333;
 }
 
-gg-flick-list .view ul > li.leading:nth-child(2) { 
+gg-flick-list > .view ul > li.leading:nth-child(2) { 
     border-bottom: 1px solid #888;
 }
+
+

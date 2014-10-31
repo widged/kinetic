@@ -12,19 +12,18 @@
 </head>
 <body>
 
-    <aside>
+    <div id="heading">
           <p>#2: Kinetic scrolling with momentum</p>
           <p>No edge bouncing effect</p>
-    </aside>
+    </div>
 
     <div class="spacer" style="height: 20px;"></div>
 
   <gg-flick-list>
-    <div class="wrapper">
       <div class="indicator"></div>
       <div class="view">
         <ul>
-            <li class="leading">&nbsp;</li>
+          <li class="leading">&nbsp;</li>
           <li>Abby <b>Riley</b></li>
           <li>Adela <b>Lewis</b></li>
           <li>Adriana <b>Bailey</b></li>
@@ -276,14 +275,13 @@
           <li>Winifred <b>Dejesus</b></li>
           <li>Young <b>Frank</b></li>
          </ul>
-     </div>
    </div>
 
   </gg-flick-list>
   </div>
 <script>
 (function(window) {
-    var kinetic = new window.Kinetic();
+    var kinetic = new window.Swipe();
     var renderer = new window.KineticList()
     renderer.embedIn(document.querySelector('gg-flick-list'))
     kinetic.renderer(renderer);

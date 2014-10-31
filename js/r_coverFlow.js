@@ -58,7 +58,7 @@
 
 			instance.scroll(offset);
 
-			asyncReturn(offset, snap, index);
+			asyncReturn(offset);
 
 		};
 

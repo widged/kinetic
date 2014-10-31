@@ -54,7 +54,7 @@ Vestibulum tincidunt vestibulum turpis, in scelerisque nibh. Cras nunc metus, cu
 <script>
 (function(window) {
 
-    var kinetic = new window.Kinetic();
+    var kinetic = new window.Swipe({isKinetic: false});
     var renderer = new window.KineticDefault()
     renderer.embedIn(document.querySelector('gg-flick-content'));
 

@@ -3,36 +3,31 @@
 	var defaults = {
 		tickerInterval	: 100,
 		dragTrigger		: 2,
-		amplitudeFactor  : 0.8, // <4> 1.2, <5> 0.9
-		velocityTrigger  : 10,
-		scrollTrigger	 : 5, // <4> 10, <5> 4
-		isHorizontal	  : false,
-		isPhotoSwipe	  : false,
-		isKeyEnabled	  : false,
-		timeConstant	  : 325, // ms	// <2,3> 
-		trackD			  : 1000,
-		trackV			  : 0.8,
-		trackZ			  : 0.2,
+		amplitudeFactor : 0.8, // <4> 1.2, <5> 0.9
+		velocityTrigger : 10,
+		scrollTrigger	: 5, // <4> 10, <5> 4
+		timeConstant	: 325, // ms	// <2,3> 
+		trackD			: 1000,
+		trackV			: 0.8,
+		trackZ			: 0.2,
+		isHorizontal	: false,
+		isKeyEnabled	: false,
+		isKinetic       : true
 	};
 
-	var Class = function Kinetic() {
+	var Class = function Swipe(settings) {
 
 		var instance = this;
 
-		var renderer, config;
+		var renderer;
 
-		var offset,
-			pressed, reference, amplitude, target, velocity,
+		var offset, kinetic,
+			pressed, reference, target,
 			frame, timestamp, ticker;
 
 		instance.getBrowserTransforms = getBrowserTransforms;
 
-		instance.config = function(_) {
-			config = _ || {};
-			Object.keys(defaults).forEach(function(key) {
-				if(!config.hasOwnProperty(key)) { config[key] = defaults[key]; }
-			});
-		};
+		config = parseConfig(settings);
 
 		instance.renderer = function(_) {
 			renderer = _;
@@ -44,9 +39,22 @@
 			setupEvents(view, tap, drag, release, handleKey);
 		};
 
+		instance.config = function(settings) {
+			config = parseConfig(settings);
+		};
+
+		function parseConfig(settings) {
+			var config = {};
+			Object.keys(defaults).forEach(function(key) {
+				config[key] = (settings && settings.hasOwnProperty(key)) ? settings[key] : defaults[key];
+			});
+			return config;
+		}
+
 		function whenRendererReady(_offset) {
 			// config = _config;
 			pressed = false;
+			if(config.isKinetic) { kinetic = new Kinetic(config); }
 			offset  = _offset;
 		}
 
@@ -58,7 +66,6 @@
 			offset = renderer.scroll(x);
 		}
 
-		// 1, 2, 3
 		function getPos(e) {
 			return config.isHorizontal ? posx(e) : posy(e);
 		}
@@ -81,26 +88,25 @@
 			return e.clientX;
 		}
 
-
-		// 1, 2+, 3+, 4+, 5+
-		function tap(e) {
-			pressed = true;
-			reference = getPos(e);
-
-			// <2,3,4,5>
-			velocity = amplitude = 0;
+		function kineticTap() {
+			if(!kinetic) { return; }
+			kinetic.reset();
 			frame = offset;
 			timestamp = Date.now();
 			clearInterval(ticker);
 			ticker = setInterval(track, config.tickerInterval);
-			// </2,3,4,5>
+		}
 
+
+		function tap(e) {
+			pressed = true;
+			reference = getPos(e);
+			kineticTap();
 			e.preventDefault();
 			e.stopPropagation();
 			return false;
 		}
 
-		// 1, 2, 3, 4, 5
 		function drag(e) {
 			var pos, delta;
 			if (pressed) {
@@ -116,40 +122,29 @@
 			return false;
 		}
 
-		// 1, 2+, 3++
 		function release(e) {
 			pressed = false;
 
-			// <3,4,5>
-			target = offset;
-			// </3,4,5>
-
 			var hasSnap = renderer.hasOwnProperty('snap') ? true : false;
-
-			// <2,3,4>
 			clearInterval(ticker);
-			if (velocity > config.velocityTrigger || velocity < -config.velocityTrigger) {
-				amplitude = config.amplitudeFactor * velocity;
-				target = Math.round(offset + amplitude);
-				if(!hasSnap) {
-					timestamp = Date.now();
-					requestAnimationFrame(autoScroll);
-				}
+			if(!kinetic) {
+				target = offset;
+			} else {
+				diff = kinetic.release();
+				target = Math.round(offset + diff);
 			}
-			// </2,3,4>
 			if(hasSnap) {
 				target = renderer.snap(target);
-				amplitude = target - offset;
-				timestamp = Date.now();
-				requestAnimationFrame(autoScroll);
+				if(kinetic) { kinetic.amplitude(target - offset); }
 			}
-
+			
+			timestamp = Date.now();
+			requestAnimationFrame(autoScroll);
 			e.preventDefault();
 			e.stopPropagation();
 			return false;
 		}
 
-		// 2, 3, 4, 5
 		function track() {
 			var now, elapsed, delta, v;
 
@@ -159,15 +154,14 @@
 			delta = offset - frame;
 			frame = offset;
 
-			v = config.trackD * delta / (1 + elapsed);
-			velocity = config.trackV * v + config.trackZ * velocity;
+			if(kinetic) { kinetic.track(delta / (1 + elapsed)); }
 		}
 
 
-		// 2, 3, 4, 5
 		function autoScroll() {
 			var elapsed, delta;
 
+			var amplitude = kinetic ? kinetic.amplitude() : undefined;
 			if (amplitude) {
 				elapsed = Date.now() - timestamp;
 				delta = amplitude * Math.exp(-elapsed / config.timeConstant);
@@ -180,7 +174,6 @@
 			}
 		}
 
-		// 5
 		function handleKey(e) {
 			if(!config.isKeyEnabled) { return; }
 
@@ -194,7 +187,7 @@
 					target = offset - snap;
 				}
 				if (offset !== target) {
-					amplitude = target - offset;
+					if(kinetic) { kinetic.amplitude(target - offset); }
 					timestamp = Date.now();
 					requestAnimationFrame(autoScroll);
 					return true;
@@ -234,7 +227,39 @@
 		return out;
 	}
 
-	window.Kinetic = Class;
+	function Kinetic(config) {
+		var instance = this;
+		var amplitude, velocity;
+
+		instance.reset = function() {
+			velocity = amplitude = 0;
+		};
+
+		instance.release = function() {
+			var out = 0;
+			if (velocity > config.velocityTrigger || velocity < -config.velocityTrigger) {
+				amplitude = config.amplitudeFactor * velocity;
+				out = amplitude;
+			}
+			return out;
+		};
+
+		instance.track = function(ratio) {
+			var v = config.trackD * ratio;
+			velocity = config.trackV * v + config.trackZ * velocity;
+		};
+
+		instance.amplitude = function(_) {
+			if(!arguments.length) { return amplitude; }
+			amplitude = _;
+			return instance;
+		};
+
+		return instance;
+	}
+
+	
+	window.Swipe = Class;
 
 
 

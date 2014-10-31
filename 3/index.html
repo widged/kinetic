@@ -23,7 +23,6 @@
           &larr; Choose color
       </div>
 
-    <div class="wrapper">
       <div class="indicator"></div>
       <div class="view">
         <ul>
@@ -172,13 +171,12 @@
           -->
          </ul>
      </div>
-   </div>
-
   </gg-flick-list>
+
   </div>
 <script>
 (function(window) {
-    var kinetic = new window.Kinetic();
+    var kinetic = new window.Swipe();
     var renderer = new window.KineticList()
     renderer.embedIn(document.querySelector('gg-flick-list'))
     kinetic.renderer(renderer);

@@ -45,7 +45,7 @@
 
 			offset = instance.display(0, snap);
 
-			asyncReturn(offset, snap, index);
+			asyncReturn(offset);
 
 		};
 

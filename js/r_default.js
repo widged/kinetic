@@ -6,7 +6,7 @@
 
 		if(!config) { config = {}; }
 
-		var view, indicator, 
+		var view, indicator,
 			relative, max, min;
 		var xform;
 
@@ -34,7 +34,7 @@
 			max = parseInt(getComputedStyle(view).height, 10) - window.innerHeight;  // </1,2> whenIndicator
 			relative = (window.innerHeight - hrel) / max;
 
-			asyncReturn(offset, index);
+			asyncReturn(offset);
 		};
 
 		instance.display = function(y) {

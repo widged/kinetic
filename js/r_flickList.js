@@ -73,36 +73,32 @@
 			xform = kinetic.getBrowserTransforms(view);
 			kinetic.setupEvents(view);
 
+			min = 0; // </1,2> whenIndicator
 			var offset = 0;
 			var index = 0;
 
-			min = 0; // </1,2> whenIndicator
-			var wrapperH = computedHeight(dom.first(".wrapper"));
+			var wrapperH = computedHeight(dom.root);
 			var viewH    = computedHeight(dom.first(".view"));
-			var viewTop = view.getBoundingClientRect().top;
 
 			var leadingQty = dom.all('li.leading').length;
-			var firstRow = dom.first('li');
-			var firstTop = firstRow.getBoundingClientRect().top;
-			var leadingH = dom.first('li.leading').getBoundingClientRect().height;
-			var lastH   = dom.first('li:last-child').getBoundingClientRect().height;
+			var leadingHeight = dom.first('li.leading').getBoundingClientRect().height;
+			var itemHeight    = dom.first('li:last-child').getBoundingClientRect().height;
 
-			var paddingBottom = (lastH * leadingQty);
+			var paddingBottom = (itemHeight * leadingQty);
 			var indicatorH = 20;
 
 			if(overlay) {
-				overlay.style.top = firstTop + (leadingQty * leadingH) + 'px';
-				var visibleH = window.innerHeight - viewTop;
-				max = viewH - paddingBottom - lastH;
+				overlay.style.top = 0 + (leadingQty * leadingHeight) + 'px';
+				max = viewH - paddingBottom - itemHeight;
 			}
 
 			if(indicator) {
-				indicator.style.top = firstTop + 'px';
+				indicator.style.top = 0 + 'px';
 				relative = (wrapperH - indicatorH) / (viewH - paddingBottom - indicatorH); // 10 = some padding?
 			}
 
-			snap = lastH;
-			asyncReturn(offset, lastH, index);
+			snap = itemHeight;
+			asyncReturn(offset);
 		};
 
 		instance.display = function(y) {
