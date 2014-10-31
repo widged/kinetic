@@ -286,11 +286,8 @@
   </div>
 <script>
 (function(window) {
-    var kinetic = new window.Swipe();
-    var renderer = new window.FlickableList()
-    renderer.embedIn(document.querySelector('gg-flick-list'))
-    kinetic.renderer(renderer);
-
+    var flickable = new window.FlickableList()
+    flickable.embedIn(document.querySelector('gg-flick-list'))
 }(window));
 </script>  
 </body>

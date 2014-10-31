@@ -22,8 +22,12 @@ define(function(require, exports, module) {
 		var xform, rootNode, snap;
 		var nodes, images, index = 0, count = 10;
 
+
+
 		instance.embedIn = function(_) {
 			rootNode = _;
+			var swipe = Swipe();
+			swipe.renderer(instance);
 			return instance;
 		};
 

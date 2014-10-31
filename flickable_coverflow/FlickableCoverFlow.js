@@ -26,6 +26,8 @@ define(function(require, exports, module) {
 
 		instance.embedIn = function(_) {
 			rootNode = _;
+			var swipe = new window.Swipe();
+			swipe.renderer(instance);
 			return instance;
 		};
 

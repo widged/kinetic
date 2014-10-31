@@ -26,14 +26,8 @@
 
 <script>
 (function(window) {
-
-    var swipe = new window.Swipe();
-
-    var renderer = new window.FlickablePhoto();
-    renderer.embedIn(document.getElementById('content'));
-
-    swipe.renderer(renderer);
-
+    var flickable = new window.FlickablePhoto();
+    flickable.embedIn(document.getElementById('content'));
 }(window));
 </script>  
 

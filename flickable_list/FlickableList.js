@@ -40,6 +40,8 @@ define(function(require, exports, module) {
 		instance.embedIn = function(node) {
 			dom       = DomComponent(node);
 			view      = dom.first('.view');
+			var swipe = new window.Swipe();
+			swipe.renderer(instance);
 			return instance;
 		};
 

@@ -15,6 +15,9 @@ define(function(require, exports, module) {
 		instance.embedIn = function(node) {
 			view      = node.querySelector('.view');
 			indicator = node.querySelector('.indicator');
+			var swipe = new window.Swipe();
+			swipe.renderer(instance);
+			return instance;
 		};
 
 		instance.ready = function(swipe, asyncReturn) {

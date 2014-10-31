@@ -184,11 +184,8 @@
   </div>
 <script>
 (function(window) {
-    var swipe = new window.Swipe();
-    var renderer = new window.FlickableList()
-    renderer.embedIn(document.querySelector('gg-flick-list'))
-    swipe.renderer(renderer);
-    
+    var flickable = new window.FlickableList()
+    flickable.embedIn(document.querySelector('gg-flick-list'))   
 }(window));
 </script>  
 </body>

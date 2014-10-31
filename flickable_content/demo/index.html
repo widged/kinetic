@@ -56,13 +56,8 @@ Vestibulum tincidunt vestibulum turpis, in scelerisque nibh. Cras nunc metus, cu
 </div>
 <script>
 (function(window) {
-
-    var swipe = new window.Swipe();
-    var renderer = new window.FlickableContent(30, false);
-    renderer.embedIn(document.querySelector('gg-flick-content'));
-
-    swipe.renderer(renderer);
-
+    var flickable = new window.FlickableContent(30, false);
+    flickable.embedIn(document.querySelector('gg-flick-content'));
 }(window));
 </script>  
 </body>
