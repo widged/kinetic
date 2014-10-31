@@ -6,8 +6,7 @@
 		scrollTrigger	: 5, // <4> 10, <5> 4
 		timeConstant	: 325, // ms	// <2,3> 
 		isHorizontal	: false,
-		isKeyEnabled	: false,
-		isKinetic       : true
+		isKeyEnabled	: false
 	};
 
 	var Class = function Swipe(settings) {

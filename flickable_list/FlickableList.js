@@ -1,19 +1,45 @@
 define(function(require, exports, module) {
+	var Class = function ScrollOverlay(node, overlayNode, listNode) {
+
+		var instance = this;
+
+		function init() {
+			if(!overlayNode) { return; }
+			var vTop = listNode.first('li').getBoundingClientRect().top;
+			var oTop = overlayNode.getBoundingClientRect().top;
+			node.style.top = Math.round(oTop - vTop);
+		}
+
+		instance.adjust = function(max) {
+			return max - instance.bottom();
+		};
+
+		instance.bottom = function() {
+			if(!overlayNode) { return 0; }
+			var vTop = listNode.first('li').getBoundingClientRect().top;
+			var oBot = overlayNode.getBoundingClientRect().bottom;
+			return oBot - vTop;
+		};
+
+		init();
+
+		return instance;
+	};
+	return Class;
+});
+
+define(function(require, exports, module) {
 
 	var Class = function FlickableList() {
 
 		var instance = this, dom;
 
-		var view, indicator, overlay,
-			relative, max, min, snap;
+		var view, indicator, overlay, max, min, snap;
 		var xform;
 		
 		instance.embedIn = function(node) {
 			dom       = DomComponent(node);
 			view      = dom.first('.view');
-			indicator = dom.first('.indicator');
-			overlay   = dom.first('.overlay');
-
 			return instance;
 		};
 
@@ -24,32 +50,17 @@ define(function(require, exports, module) {
 			xform = swipe.getBrowserTransforms(view);
 			swipe.setupEvents(view);
 
-			min = 0; // </1,2> whenIndicator
-			var offset = 0;
-			var index = 0;
+			min   = 0;
+			max   = computedHeight(dom.first(".view"));
+			snap  = dom.first('li:last-child').getBoundingClientRect().height;
 
-			var wrapperH = computedHeight(dom.root);
-			var viewH    = computedHeight(dom.first(".view"));
+			var overlay = new ScrollOverlay(dom.first('.overlay'), dom.first('li.overlay'), dom);
+			max = overlay.adjust(max);
 
-			var leadingQty = dom.all('li.leading').length;
-			var leadingHeight = dom.first('li.leading').getBoundingClientRect().height;
-			var itemHeight    = dom.first('li:last-child').getBoundingClientRect().height;
+			indicator = new ScrollIndicator(dom.first('.indicator'), dom, computedHeight(dom.root), xform);
 
-			var paddingBottom = (itemHeight * leadingQty);
-			var indicatorH = 20;
-
-			if(overlay) {
-				overlay.style.top = 0 + (leadingQty * leadingHeight) + 'px';
-				max = viewH - paddingBottom - itemHeight;
-			}
-
-			if(indicator) {
-				indicator.style.top = 0 + 'px';
-				relative = (wrapperH - indicatorH) / (viewH - paddingBottom - indicatorH); // 10 = some padding?
-			}
-
-			snap = itemHeight;
-			asyncReturn(offset);
+			snap = snap;
+			asyncReturn(0);
 		};
 
 		instance.display = function(y) {
@@ -59,11 +70,7 @@ define(function(require, exports, module) {
 		instance.scroll = function(y) {
 			y = (y > max) ? max : (y < min) ? min : y;
 			view.querySelector('ul').style[xform] = 'translateY(' + (-y) + 'px)';
-			// <1,2>
-			if(indicator) {
-				indicator.style[xform] = 'translateY(' + (y * relative) + 'px)';
-			}
-			// </1,2>
+			if(indicator) { indicator.update(y, min, max); }
 			return y;
 		};
 

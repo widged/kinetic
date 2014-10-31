@@ -5,6 +5,7 @@ gg-flick-list {
     overflow: hidden;
     height: 100%;
     height: 600px;
+    background-color: rgba(100,100,100,0.1)
 }
 
 gg-flick-list > .overlay {
@@ -23,7 +24,6 @@ gg-flick-list > .overlay {
     -ms-user-select: none;
     user-select: none;
 }
-
 
 gg-flick-list > .indicator {
     position: absolute;
